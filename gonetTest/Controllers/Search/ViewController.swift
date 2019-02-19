@@ -36,6 +36,7 @@ class ViewController: UIViewController {
     var locationManager: CLLocationManager!
     var latitude: NSNumber?
     var longitude: NSNumber?
+    var search = String.Empty
     
     var businesses = [BussinessYelpModel]()
     
@@ -114,9 +115,9 @@ extension ViewController {
 // MARK: - Search Bar
 extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.search = self.searchBar.text ?? String.Empty
         DispatchQueue.global(qos: .background).async {
-        
-            EndPoint.BusinessSearch(self.searchBar.text ?? String.Empty, self.latitude ?? NSNumber(), self.longitude ?? NSNumber()) { (tupla) in
+            EndPoint.BusinessSearch(self.search, self.latitude ?? NSNumber(), self.longitude ?? NSNumber()) { (tupla) in
                 let searchYelpModelRow = tupla.0
                 if let searchYelpModel = searchYelpModelRow {
                     self.businesses = searchYelpModel.Businesses
